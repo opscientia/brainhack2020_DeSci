@@ -5,7 +5,7 @@
 # Install in PATH as git-annex-remote-ipfs
 #
 # Copyright 2015 Joey Hess; licenced under the GNU GPL version 3 or higher.
-
+echo 'hello' >&2
 set -e
 
 # use ipfs: as a prefix to indicate when an "url" is really stored in ipfs
@@ -29,7 +29,12 @@ getvalue () {
 	# preserving all other whitespace
 	case "${resp%% *}" in
 		VALUE)
-			RET="$(echo "$resp" | sed 's/^VALUE \?//')"
+			if [[ $resp = "VALUE" ]]; then
+				RET=""
+			else
+				RET="$(echo "$resp" | sed 's/^VALUE \?//')"
+				echo "RESP: ${resp}, RESP SED: ${RET}" >&2
+			fi
 		;;
 		*)
 		RET=""
@@ -45,7 +50,7 @@ getaddrs () {
 
         echo GETURLS "$key"
         getvalue
-        while [ -n "$RET" ]; do
+        while [ -n "$RET" ] ; do
                 if isipfsurl "$RET"; then
                         echo "$RET" >> "$tmp"
                 fi
@@ -103,7 +108,7 @@ while read line; do
 					if [ -z "$addr" ]; then
 						echo TRANSFER-FAILURE RETRIEVE "$key" "no known ipfs address for this key"
 					else
-						if ! ipfs get --output="$file" "$addr" >&2 </dev/null; then
+						if ! ipfs get --output="$file" "$addr"; then
 							echo TRANSFER-FAILURE RETRIEVE "$key" "failed downloading ipfs $addr"
 						else
 							echo TRANSFER-SUCCESS RETRIEVE "$key"
@@ -123,5 +128,5 @@ while read line; do
 		*)
 			echo UNSUPPORTED-REQUEST
 		;;
-	esac	
+	esac
 done
