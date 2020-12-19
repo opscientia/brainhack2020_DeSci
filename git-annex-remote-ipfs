@@ -53,8 +53,8 @@ getaddrs () {
         while [ -n "$RET" ] ; do
                 if isipfsurl "$RET"; then
                         echo "$RET" >> "$tmp"
+												getvalue
                 fi
-                getvalue
         done
 }
 
@@ -104,6 +104,7 @@ while read line; do
 					addrtmp=$(mktemp)
 					getaddrs "$key" "$addrtmp"
 					addr="$(urltoaddress "$(head "$addrtmp")")" || true
+
 					rm -f "$addrtmp"
 					if [ -z "$addr" ]; then
 						echo TRANSFER-FAILURE RETRIEVE "$key" "no known ipfs address for this key"
