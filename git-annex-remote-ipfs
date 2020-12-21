@@ -9,16 +9,23 @@ set -e
 
 # use ipfs: as a prefix to indicate when an "url" is really stored in ipfs
 isipfsurl () {
-	echo "$1" | egrep -q "^ipfs:"
+	echo "${1}" | egrep -q "^ipfs:"
+	# done
+	return
 }
 
 # convert an ipfs: url to an address that the ipfs client understands
 urltoaddress () {
-	echo "$1" | sed -e 's/^ipfs://'
+	echo "${1}" | sed -e 's/^ipfs://'
+	# done
+	return	
 }
 
+# convert address to to ipfs: url
 addresstourl () {
-	echo "ipfs:$1"
+	echo "ipfs:${1}"
+	# done
+	return	
 }
 
 # Gets a VALUE response and stores it in $RET
@@ -31,10 +38,10 @@ getvalue () {
 		#OLD CODE:
 		#RET="$(echo "$resp" | sed 's/^VALUE \?//')"
 		#NEW CODE:
-			if [[ $resp = "VALUE" ]]; then
+			if [[ ${resp} = "VALUE" ]]; then
 				RET=""
 			else
-				RET="$(echo "$resp" | sed 's/^VALUE \?//')"
+				RET="$(echo "${resp}" | sed 's/^VALUE \?//')"
 				echo "RESP: ${resp}, RESP SED: ${RET}" >&2
 			fi
 		;;
@@ -42,22 +49,26 @@ getvalue () {
 		RET=""
 		;;
 	esac
+	# done
+	return	
 }
 
 # Get a list of all known ipfs addresses for a key,
 # storing it in a temp file.
 getaddrs () {
-        key="$1"
-        tmp="$2"
+        key="${1}"
+        tmp="${2}"
 
-        echo GETURLS "$key"
+        echo GETURLS "${key}"
         getvalue
-        while [ -n "$RET" ] ; do
-								echo HERE IS THE PROBLEM RET IS $RET AND ISIPFSURL RETURNS `isipfsurl $RET` >&2
-								PARSED_RET=`echo $RET | sed 's/VALUE //'`;
+        while [ -n "${RET}" ] ; do
+        		echo "================================="
+        		echo BUG: RET IS $RET AND ISIPFSURL RETURNS `isipfsurl $RET` >&2
+        		echo "================================="
+        		PARSED_RET=`echo $RET | sed 's/VALUE //'`;
                 if isipfsurl $PARSED_RET; then
-                        echo "$PARSED_RET" >> "$tmp"
-												getvalue
+                	echo "$PARSED_RET" >> "$tmp"
+                	getvalue
                 fi
         done
 }
