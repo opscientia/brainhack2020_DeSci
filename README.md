@@ -50,7 +50,7 @@ See where the file is
 git annex whereis
 ```
 ```
-> whereis nicap55_T1w.nii.gz (2 copies)
+> whereis file.nii.gz (2 copies)
 >   	463b1fa7-e0e3-4c5b-bfe0-7281bc75a1f5 -- [ipfs]
 >    	adac19e4-1684-4ce3-bca7-c56f460c64fc -- origin [here]
 >
@@ -142,7 +142,7 @@ Lastly retrieve the file from ipfs
 git annex copy --from ipfs
 ```
 ```
-> copy sub-hebbianloop_ses-2019a_acq-mprage_t1w.nii.gz (from ipfs...)
+> copy file.nii.gz (from ipfs...)
 > Saving file(s) to .git/annex/tmp/SHA256E-s1157145--c1a8dcd6b83e31ee40784dce2ba709f98a6d697ef4778a813584e5d5d52a2bf0.nii.gz
 >  1.10 MiB / 1.10 MiB [==============================================] 100.00% 0s
 > (checksum...) ok
