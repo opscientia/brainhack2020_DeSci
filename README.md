@@ -79,7 +79,12 @@ git clone https://github.com/<username>/<repo>.git
 > Unpacking objects: 100% (41/41), done.
 ```
 
-Next update the central repository on gitub. This creates a record of all clones of the dataset and is useful for keeping track of collaboration projects.
+Make sure you are on the 'master' branch
+```
+git checkout master
+```
+
+Next, sync with the central github repository. This creates a record of all clones of the dataset and is useful for keeping track of collaboration projects.
 ```
 git annex sync
 ```
