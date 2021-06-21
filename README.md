@@ -79,9 +79,9 @@ git clone https://github.com/<username>/<repo>.git
 > Unpacking objects: 100% (41/41), done.
 ```
 
-Make sure you are on the 'master' branch
+Make sure you are on the 'main' branch (change to 'master' if you're using an older version of git)
 ```
-git checkout master
+git checkout main
 ```
 
 Next, sync with the central github repository. This creates a record of all clones of the dataset and is useful for keeping track of collaboration projects.
