@@ -41,7 +41,7 @@ datalad create --force --description "datalad with ipfs demo"
 datalad save -m "add file dataset1.txt"
 ```
 
-###Initialize the IPFS remote
+### Initialize the IPFS remote
 We need a local IPFS node running. In another terminal, start the ipfs daemon.
 ```
 ipfs init && ipfs daemon
@@ -59,13 +59,31 @@ datalad siblings
 > .: ipfs(+) [ipfs]
 ```
 
-## Create sibling on github
+### Create sibling on github
 ```
-datalad create-sibling-github -d . demo-dataset
+datalad create-sibling-github -d . demo-dataset --publish-depends ipfs
 ```
 
-## push to ipfs
+### push to ipfs
 ```
 datalad push --to ipfs
 ```
 
+## Fetching dataset from ipfs on another machine
+First make sure all the packages are installed and the ipfs remote is configured as described above
+
+next, clone the github repository
+```
+git clone <github repo link>
+cd demo-dataset
+```
+
+enable ipfs remote (this needs the ipfs daemon to be running on this machine too)
+```
+git annex enableremote ipfs
+```
+
+retrieve all files
+```
+datalad get . -r
+```
