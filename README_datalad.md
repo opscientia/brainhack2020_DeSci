@@ -7,6 +7,12 @@ apt install git-annex datalad // Switch package manager for the distribution you
 // Mac
 brew install git-annex datalad
 ```
+Make sure you've installed least v0.14+ for datalad. There are some issues with previous versions.
+If your package manager installed an old version, uninstall the old version, then reinstall datalad using pip
+```
+// use this for datalad installation if package manager installs old version
+python3 -m pip install --upgrade datalad
+```
 Install ipfs CLI. Instructions are [here](https://docs.ipfs.io/install/command-line/)
 
 ### Add special remote script to PATH
@@ -68,6 +74,16 @@ datalad create-sibling-github -d . demo-dataset --publish-depends ipfs
 ```
 datalad push --to ipfs
 ```
+You can check the locations of all files in the annex:
+```
+git annex whereis
+```
+
+### push metadata to github
+```
+datalad push --to github
+```
+This will not push the actual data files to github, since we've defined the github sibling as dependent on ipfs
 
 ## Fetching dataset from ipfs on another machine
 First make sure all the packages are installed and the ipfs remote is configured as described above
@@ -78,12 +94,17 @@ git clone <github repo link>
 cd demo-dataset
 ```
 
+alternatively, if you want to pull changes into an already cloned repo,
+```
+datalad update --merge -s github
+```
+
 enable ipfs remote (this needs the ipfs daemon to be running on this machine too)
 ```
 git annex enableremote ipfs
 ```
 
-retrieve all files
+retrieve the file
 ```
-datalad get . -r
+datalad get file1.txt
 ```
