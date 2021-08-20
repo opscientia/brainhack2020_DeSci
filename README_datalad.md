@@ -86,11 +86,12 @@ datalad push --to github
 This will not push the actual data files to github, since we've defined the github sibling as dependent on ipfs
 
 ## Fetching dataset from ipfs on another machine
-First make sure all the packages are installed and the ipfs remote is configured as described above
+First make sure all the packages are installed and the ipfs remote is configured as described above (till the step where we run ```git annex initremote ...``` )
 
 next, clone the github repository
 ```
-git clone <github repo link>
+// Notice ... datalad clone, not git clone
+datalad clone <github repo link>
 cd demo-dataset
 ```
 
